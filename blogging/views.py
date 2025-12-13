@@ -11,11 +11,11 @@ def index(request):
 
     return render(request, template, context)
 
-def post_detail(request):
+def post_list(request):
     posts = Post.objects.all()
-    template = 'blogging/post_detail.html'
+    template = 'blogging/post_list.html'
     context = {
-        'page_title': 'Post Detail',
+        'page_title': 'All Blog Posts',
         'posts': posts,
     }
     
