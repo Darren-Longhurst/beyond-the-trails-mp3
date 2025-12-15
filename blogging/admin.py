@@ -2,6 +2,8 @@ from django.contrib import admin
 from blogging.models import Post, Comment
 from django_summernote.admin import SummernoteModelAdmin
 
+"""Post model in admin panel"""
+
 @admin.register(Post)
 class PostAdmin(SummernoteModelAdmin):
 
@@ -11,6 +13,7 @@ class PostAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     summernote_fields = ('content',)
 
+"""Comment model in admin panel"""
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -18,6 +21,8 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', 'body']
     list_filter = ('approved', 'created_at')
     actions = ['approve_comments']
+
+    """Approve selected comments"""
 
     def approve_comments(self, request, queryset):
         queryset.update(approved=True)
