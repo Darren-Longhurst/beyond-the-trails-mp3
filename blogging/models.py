@@ -5,6 +5,8 @@ STATUS = ((0, "Draft"), (1, "Published"))
 WEATHER = ((0, "Sunny"), (1, "Overcast"), (2, "Rainy"), (3, "Snowy"), (4, "Windy"), (5, "Foggy"))
 BIKE_CHOICES = ((0, "Hardtail"), (1, "Full Suspension"), (2, "Road Bike"), (3, "Hybrid Bike"), (4, "Electric Bike"), (5, "Gravel Bike"))
 
+""" Model for blog posts """
+
 class Post(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
@@ -29,3 +31,21 @@ class Post(models.Model):
     def number_of_likes(self):
         # Returns the number of likes for the post
         return self.likes.count()
+
+""" Model for comments associated with blog posts """
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+    class Meta:
+        # Sets the default ordering to ascending creation date
+        ordering = ['created_at']
+
+    def __str__(self):
+        # Returns a string representation of the comment
+        return f'Comment by {self.name} on {self.post}'
