@@ -21,5 +21,6 @@ from blogging.views import index
 urlpatterns = [
     path('', index, name='home'),
     path('admin/', admin.site.urls),
+    path('summernote/', include('django_summernote.urls')),
     path('blog/', include('blogging.urls')),
 ]
