@@ -1,4 +1,5 @@
 {% load static %}
+{% url 'home' as home_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,10 +13,25 @@
 <!-- PNG fallback-->
 <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicons/favicon-32x32.png' %}">
 <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicons/favicon-16x16.png' %}">
-
+<!--Google Fonts-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+<!--Font Awesome-->
+<script src="https://kit.fontawesome.com/07874c836d.js" crossorigin="anonymous"></script>
+<!--Bootstrap CSS-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
+
     <body>
+      <main>
     {% block body %}
     {% endblock %}
+    </main>
+    <footer>
+{% block copyright %}
+      <p>&copy; 2024 Beyond The Trails - Darren Longhurst</p>
+{% endblock copyright %}
+    </footer>
     </body>
 </html>

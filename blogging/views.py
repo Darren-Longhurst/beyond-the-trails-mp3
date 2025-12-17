@@ -1,8 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from blogging.models import Post
+from django.views import generic
+from .models import Post
 
 # Create your views here.
+
+class PostList(generic.ListView):
+    queryset = Post.objects.filter(status=1).order_by('-created_at')
+    template_name = 'post_list.html'
+"""
 def index(request):
     template = 'blogging/index.html'
     context = {
@@ -34,3 +39,4 @@ def post_detail(request, post_id):
     }
     
     return render(request, template, context)
+"""
