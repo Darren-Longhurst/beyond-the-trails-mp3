@@ -13,6 +13,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blogging_posts', default=1)
     location = models.CharField(max_length=50, default='Unknown')
     weather = models.IntegerField(choices=WEATHER, default=0)
+    excerpt = models.TextField(max_length=300, help_text='A short summary of the post')
     bike_choice = models.IntegerField(choices=BIKE_CHOICES, default=0)
     likes = models.ManyToManyField(User, related_name='blogging_likes', blank=True)
     content = models.TextField()
