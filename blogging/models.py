@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 STATUS = ((0, "Draft"), (1, "Published"))
 WEATHER = ((0, "Sunny"), (1, "Overcast"), (2, "Rainy"), (3, "Snowy"), (4, "Windy"), (5, "Foggy"))
@@ -13,6 +14,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blogging_posts', default=1)
     location = models.CharField(max_length=50, default='Unknown')
     weather = models.IntegerField(choices=WEATHER, default=0)
+    image = CloudinaryField('image', blank=True, null=True)
     excerpt = models.TextField(blank=True, help_text='A short summary of the post')
     bike_choice = models.IntegerField(choices=BIKE_CHOICES, default=0)
     likes = models.ManyToManyField(User, related_name='blogging_likes', blank=True)
