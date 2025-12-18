@@ -32,8 +32,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['bike-packing-blog.herokuapp.com',
-                 '127.0.0.1',]
+ALLOWED_HOSTS = ['bike-packing-blog.herokuapp.com', 'www.bike-packing-blog.herokuapp.com',]
+
 
 
 # Application definition
@@ -95,7 +95,7 @@ DATABASES = {
     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
 
-CSRF_TRUSTED_ORIGINS = ['https://*.herokuapp.com', 'https://*.codeinstitute-ide.net']
+CSRF_TRUSTED_ORIGINS = ['https://bike-packing-blog.herokuapp.com', 'https://www.bike-packing-blog.herokuapp.com', 'https://*.codeinstitute-ide.net',]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
