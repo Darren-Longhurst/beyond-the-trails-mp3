@@ -31,6 +31,7 @@ def post_detail(request, slug):
     comments = post.comments.filter(approved=True).order_by('created_at')
     comment_count = post.comments.filter(approved=True).count()
     if request.method == "POST":
+        print("POST request received")
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             # Create Comment object but don't save to database yet
@@ -42,6 +43,7 @@ def post_detail(request, slug):
             messages.success(request, "Your comment has been submitted and is awaiting approval.")
 
     comment_form = CommentForm()
+    print("Rendering post detail page")
 
     return render(
         request,

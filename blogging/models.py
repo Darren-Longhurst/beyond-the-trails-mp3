@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 
 STATUS = ((0, "Draft"), (1, "Published"))
+LOCATIONS = (("KAW", "King Alfreds Way"), ("GNT", "Great North Trail"), ("MCW", "Marcher Castles Way"), ("TE", "Traws Eryri"), ("NDW", "North Downs Way"), ("RW", "Rebellion Way"), ("WKW", "West Kernow Way"), ("OTHER", "Other"))
 WEATHER = ((0, "Sunny"), (1, "Overcast"), (2, "Rainy"), (3, "Snowy"), (4, "Windy"), (5, "Foggy"))
 BIKE_CHOICES = ((0, "Hardtail"), (1, "Full Suspension"), (2, "Road Bike"), (3, "Hybrid Bike"), (4, "Electric Bike"), (5, "Gravel Bike"))
 
@@ -12,9 +13,9 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blogging_posts', default=1)
-    location = models.CharField(max_length=50, default='Unknown')
+    location = models.CharField(max_length=10, choices=LOCATIONS, default="OTHER")
     weather = models.IntegerField(choices=WEATHER, default=0)
-    image = CloudinaryField('image', blank=True, null=True)
+    image = CloudinaryField('image', default='placeholder')
     excerpt = models.TextField(blank=True, help_text='A short summary of the post')
     bike_choice = models.IntegerField(choices=BIKE_CHOICES, default=0)
     likes = models.ManyToManyField(User, related_name='blogging_likes', blank=True)
