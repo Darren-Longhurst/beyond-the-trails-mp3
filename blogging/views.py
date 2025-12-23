@@ -28,28 +28,50 @@ def post_detail(request, slug):
 
     queryset = Post.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
+
+     # Location image mapping
+    LOCATION_IMAGES = {
+        "KAW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450332/KAW_azhb8h.jpg",
+        "GNT": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/GNT_hgmttq.jpg",
+        "MCW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/MCW_vccqz4.jpg",
+        "TE": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/TE_dxmhjq.jpg",
+        "NDW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/NDW_trpocy.jpg",
+        "RW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/RW_j5smla.jpg",
+        "WKW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/WKW_gnmghj.jpg",
+        "OTHER": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450332/OTHER_pics80.jpg",
+    }
+
+    # Determine fallback image based on location
+    image_url = LOCATION_IMAGES.get(post.location, LOCATION_IMAGES["OTHER"])
+
+    # Always define comments and counts first
     comments = post.comments.filter(approved=True).order_by('created_at')
-    comment_count = post.comments.filter(approved=True).count()
+    comment_count = comments.count()
+
+    # Handle POST for new comments
     if request.method == "POST":
-        print("POST request received")
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
-            # Create Comment object but don't save to database yet
             new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
             new_comment.post = post
-            # Save the comment to the database
             new_comment.save()
-            messages.success(request, "Your comment has been submitted and is awaiting approval.")
+            messages.success(
+                request,
+                "Your comment has been submitted and is awaiting approval."
+            )
+    else:
+        comment_form = CommentForm()
 
-    comment_form = CommentForm()
-    print("Rendering post detail page")
+    # Now pass everything to context
+    context = {
+        'post': post,
+        'comments': comments,
+        'comment_count': comment_count,
+        'comment_form': comment_form,
+        'image_url': image_url,
+    }
 
-    return render(
-        request,
-        "blogging/post_detail.html",
-        {"post": post, "comments": comments, "comment_count": comment_count, "comment_form": comment_form},
-    )
+    return render(request, "blogging/post_detail.html", context)
 """
 def index(request):
     template = 'blogging/index.html'

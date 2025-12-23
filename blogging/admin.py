@@ -12,6 +12,7 @@ class PostAdmin(SummernoteModelAdmin):
     list_filter = ('status', 'created_at')
     prepopulated_fields = {'slug': ('title',)}
     summernote_fields = ('content',)
+    fields = ('title', 'slug', 'author', 'location', 'weather', 'excerpt', 'bike_choice', 'likes', 'content', 'status',)
 
 """Comment model in admin panel"""
 
