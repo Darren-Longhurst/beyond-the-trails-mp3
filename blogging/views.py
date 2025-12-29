@@ -1,8 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic
 from django.contrib import messages
-from .models import Post
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from .models import Post, Comment
 from .forms import CommentForm
+
 
 # Create your views here.
 
@@ -13,23 +16,9 @@ class PostList(generic.ListView):
     
 
 def post_detail(request, slug):
-    """
-    Display an individual :model:`blog.Post`.
+    post = get_object_or_404(Post.objects.filter(status=1), slug=slug)
 
-    **Context**
-
-    ``post``
-        An instance of :model:`blog.Post`.
-
-    **Template:**
-
-    :template:`blog/post_detail.html`
-    """
-
-    queryset = Post.objects.filter(status=1)
-    post = get_object_or_404(queryset, slug=slug)
-
-     # Location image mapping
+    # Location image mapping
     LOCATION_IMAGES = {
         "KAW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450332/KAW_azhb8h.jpg",
         "GNT": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/GNT_hgmttq.jpg",
@@ -40,29 +29,29 @@ def post_detail(request, slug):
         "WKW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/WKW_gnmghj.jpg",
         "OTHER": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450332/OTHER_pics80.jpg",
     }
-
-    # Determine fallback image based on location
     image_url = LOCATION_IMAGES.get(post.location, LOCATION_IMAGES["OTHER"])
 
-    # Always define comments and counts first
-    comments = post.comments.filter(approved=True).order_by('created_at')
-    comment_count = comments.count()
+    # Comments: approved or authored by the logged-in user
+    if request.user.is_authenticated:
+        comments = (post.comments.filter(approved=True) | post.comments.filter(author=request.user)).distinct().order_by('created_at')
+    else:
+        comments = post.comments.filter(approved=True).order_by('created_at')
 
-    # Handle POST for new comments
+    comment_count = post.comments.filter(approved=True).count()
+
+    # Handle new comment submission
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
             new_comment.post = post
+            new_comment.author = request.user
             new_comment.save()
-            messages.success(
-                request,
-                "Your comment has been submitted and is awaiting approval."
-            )
+            messages.success(request, "Your comment has been submitted and is awaiting approval.")
+            return HttpResponseRedirect(reverse('post_detail', args=[slug]))
     else:
         comment_form = CommentForm()
 
-    # Now pass everything to context
     context = {
         'post': post,
         'comments': comments,
@@ -72,6 +61,7 @@ def post_detail(request, slug):
     }
 
     return render(request, "blogging/post_detail.html", context)
+
 """
 def index(request):
     template = 'blogging/index.html'
@@ -105,3 +95,47 @@ def post_detail(request, post_id):
     
     return render(request, template, context)
 """
+@login_required
+def comment_edit(request, slug, comment_id):
+    """
+    view to edit comments
+    """
+    post = get_object_or_404(Post, slug=slug, status=1)
+    comment = get_object_or_404(Comment, pk=comment_id, post=post)
+    
+    """ Ensure the logged-in user is the author of the comment """
+    if comment.author != request.user:
+        messages.error(request, "You are not allowed to edit this comment.")
+        return HttpResponseRedirect(reverse("post_detail", args=[slug]))
+
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST, instance=comment)
+
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.approved = False
+            comment.save()
+            messages.success(request, "Comment updated and awaiting approval.")
+        else:
+            messages.error(request, "Error updating comment.")
+
+    return HttpResponseRedirect(reverse("post_detail", args=[slug]))
+
+@login_required
+def comment_delete(request, slug, comment_id):
+    """
+    view to delete comments
+    """
+    post = get_object_or_404(Post, slug=slug, status=1)
+    comment = get_object_or_404(Comment, pk=comment_id, post=post)
+
+    """ Ensure the logged-in user is the author of the comment """
+    if comment.author != request.user:
+        messages.error(request, "You are not allowed to delete this comment.")
+        return HttpResponseRedirect(reverse("post_detail", args=[slug]))
+
+    if request.method == "POST":
+        comment.delete()
+        messages.success(request, "Comment deleted successfully.")
+
+    return HttpResponseRedirect(reverse("post_detail", args=[slug]))
