@@ -11,25 +11,21 @@ from .forms import CommentForm
 
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_at')
-    template_name = 'blogging/index.html'
+    template_name = 'blogging/blog.html'
     paginate_by = 6
+
+def home_page(request):
+    # Filter for published posts and ensure slug is not empty/null
+    featured_post = Post.objects.filter(status=1).exclude(slug="").order_by('-created_at').first()
+    
+    context = {
+        'featured_post': featured_post,
+    }
+    return render(request, 'blogging/index.html', context)
     
 
 def post_detail(request, slug):
     post = get_object_or_404(Post.objects.filter(status=1), slug=slug)
-
-    # Location image mapping
-    LOCATION_IMAGES = {
-        "KAW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450332/KAW_azhb8h.jpg",
-        "GNT": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/GNT_hgmttq.jpg",
-        "MCW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/MCW_vccqz4.jpg",
-        "TE": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/TE_dxmhjq.jpg",
-        "NDW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/NDW_trpocy.jpg",
-        "RW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/RW_j5smla.jpg",
-        "WKW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/WKW_gnmghj.jpg",
-        "OTHER": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450332/OTHER_pics80.jpg",
-    }
-    image_url = LOCATION_IMAGES.get(post.location, LOCATION_IMAGES["OTHER"])
 
     # Comments: approved or authored by the logged-in user
     if request.user.is_authenticated:
@@ -57,7 +53,6 @@ def post_detail(request, slug):
         'comments': comments,
         'comment_count': comment_count,
         'comment_form': comment_form,
-        'image_url': image_url,
     }
 
     return render(request, "blogging/post_detail.html", context)

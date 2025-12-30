@@ -1,0 +1,26 @@
+bugs
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# --- ADD / UPDATE THESE LINES HERE ---
+
+# Static files (handled by WhiteNoise)
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+
+# Media files (handled by Cloudinary)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# -------------------------------------
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+Why this works:
+By explicitly setting DEFAULT_FILE_STORAGE to Cloudinary, you ensure that any images uploaded to your blog go to the cloud. By setting STATICFILES_STORAGE to WhiteNoise, you ensure your CSS and JavaScript are served reliably from your own server without Cloudinary trying to "hijack" them, which was causing your FileNotFoundError.
