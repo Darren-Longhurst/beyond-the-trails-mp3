@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from django.urls import reverse
 
 STATUS = ((0, "Draft"), (1, "Published"))
 LOCATIONS = (("KAW", "King Alfreds Way"), ("GNT", "Great North Trail"), ("MCW", "Marcher Castles Way"), ("TE", "Traws Eryri"), ("NDW", "North Downs Way"), ("RW", "Rebellion Way"), ("WKW", "West Kernow Way"), ("OTHER", "Other"))
@@ -57,6 +58,8 @@ class Post(models.Model):
     def number_of_likes(self):
         # Returns the number of likes for the post
         return self.likes.count()
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[self.slug])
 
 """ Model for comments associated with blog posts """
 

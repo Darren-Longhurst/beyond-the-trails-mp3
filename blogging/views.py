@@ -16,11 +16,11 @@ class PostList(generic.ListView):
 
 def home_page(request):
     # Filter for published posts and ensure slug is not empty/null
-    featured_post = Post.objects.filter(status=1).exclude(slug="").order_by('-created_at').first()
+    latest_posts = Post.objects.filter(status=1).exclude(slug="").order_by('created_at')[:3]
     hero_image = Post.LOCATION_IMAGES["OTHER"]
     
     context = {
-        'featured_post': featured_post,
+        'latest_posts': latest_posts,
         'hero_image': hero_image,
     }
     return render(request, 'blogging/index.html', context)

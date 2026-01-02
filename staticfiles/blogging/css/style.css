@@ -1,22 +1,140 @@
+/* Global Styles */
+
+:root {
+    --hero-url: url('../images/hero-bg.jpg');
+    --primary-font: 'Google Sans', sans-serif;
+    --secondary-font: 'Cal Sans', sans-serif;
+    --primary-color: #4a4b2c;
+    --secondary-color: #a6a68e;
+    --highlight-color: #e4ec00;
+}
+
+body {
+    font-family: var(--primary-font);
+    color: var(--primary-color);
+}
+
+h1, h2, h3, .navbar-brand, .nav-link {
+    font-family: var(--primary-font);
+    color: var(--primary-color);
+}
+
+/* Logo*/
+
 .logo {
     height: 60px;
     width: auto;
     margin-right: 10px;
 }
 
-body {
-    background-color: #F9FAFC;
+/* Navbar Customization */
+
+.navbar-brand, .nav-link {
+    font-family: var(--primary-font);
+    font-weight: 500;
+    color: var(--primary-color) !important;
+}
+
+.bg-custom-brown {
+    background-color: var(--secondary-color);
+}
+
+.navbar-brand:hover, .nav-link:hover {
+    color: #ffffff !important;
+}
+
+.user-welcome {
+    font-family: var(--primary-font);
+    color: var(--primary-color) !important;
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin-left: 20px; 
+    white-space: nowrap; /* Prevents text from breaking into two lines */
+}
+
+/* --- Django alerts (The Message Row) --- */
+
+.message-row {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-alert {
+    border-radius: 0;
+    border: none;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border-top: 1px solid rgba(0,0,0,0.1); 
+    padding: 8px 0;
+    font-family: var(--primary-font);
+    width: 100%;
+}
+
+.nav-alert .btn-close {
+    position: static;
+    margin: 0;
+    padding: 0;
+    font-size: 0.7rem;
+}
+
+.alert-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: block;
+}
+
+.custom-close {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+/* Custom Butttons */
+
+/* Base Button Style */
+.btn-custom {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: 0.5px solid var(--primary-color);
+    font-family: var(--primary-font);
+    transition: all 0.3s ease;
+}
+
+/* Hover State */
+.btn-custom:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: 0.5px solid var(--secondary-color);
+}
+
+/* The "Halo" / Focus State */
+.btn-custom:focus, 
+.btn:focus {
+    box-shadow: 0.25px var(--secondary-color) !important;
+}
+
+/* Active / Click State */
+.btn-custom:active {
+    background-color: var(--primary-color) !important;
+    transform: scale(0.98);
+}
+
+/* Post detail content*/
+#post-card-body  {
+    color: var(--primary-color);
+}
+
+.masthead, .post-title  {
+    color: var(--secondary-color);
+}
+
+#comment  {
+    color: var(--primary-color);
 }
 
 .brand {
-    font-family: Lato, sans-serif;
+    font-family: var(--primary-font);
     font-size: 1.4rem;
     font-weight: 700;
-    color: #4A4A4F;
-}
-
-.red-o {
-    color: #E84610;
+    color: var(--primary-color);
 }
 
 .thin {
@@ -25,10 +143,6 @@ body {
 
 .light-bg {
     background-color: #fff;
-}
-
-.dark-bg {
-    background-color: #445261;
 }
 
 .main-bg {
@@ -49,7 +163,7 @@ body {
     bottom: 5%;
     min-width: 30%;
     left: -2px;
-    background-color: #188181;
+    background-color: var(--secondary-color);
 }
 
 .scale {
@@ -58,10 +172,55 @@ body {
 }
 
 .author {
-    color: white;
+    color: #ffffff;
     margin: 4px;
-    text-transform: uppercase;
+    font-weight: bold;
 }
+
+/* Hero */
+
+.hero {
+    /* Dimensions */
+    min-height: 80vh; 
+    width: 100%;
+
+    /* Positioning & Scaling */
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--hero-url);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    
+    /* Ensuring content stays centered */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-text {
+    color: var(--secondary-color)!important;
+    text-align: center;
+}
+
+/* Feature section*/
+
+.divider {
+    background-color: #fff;
+    text-align: center;
+    border-radius: 20px;
+    padding: 2rem 0;
+}
+
+/* Latest posts section*/
+
+.card-img-top  {
+    width: 100%;        
+    height: 200px;         
+    object-fit: cover;     
+    border-radius: 8px 8px 0 0; 
+}
+
+
+/* Blog page custom css*/
 
 .masthead {
     margin-top: 10px;
@@ -73,80 +232,99 @@ body {
 }
 
 .masthead-text {
-    background-color: #49482d;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--highlight-color);
     position: relative;
 
 }
 
 .masthead-image img {
-    /*position: relative;
-    overflow: hidden;*/
     width: 100%;
     height: 100%;
-    display:block;
+    display: block;
     object-fit: cover;
 }
 
-/*.masthead-image:after {
-    content: "";
-    opacity: 0.8;
-    position: absolute;
-    top: 0;
-    right: 90%;
-    height: 100%;
-    width: 150%;
-    background: #49482d;
-    -webkit-transform: skew(15deg);
-    -moz-transform: skew(15deg);
-    transform: skew(15deg);
-    z-index: 100;
-}*/
+p.post-date.card-text.text-muted.h6  {
+    color: var(--primary-color) !important; 
+}
 
 .post-link {
     text-decoration: none;
-    color: #445261;
+    color: var(--primary-color);
 }
 
 .post-link:hover,
 .page-link {
-    color: #E84610;
+    color: var(--secondary-color) ;
 }
 
 .post-title {
+    color: #ffffff;
     margin-top: 10%;
     margin-left: 5%;
 }
 
 .post-subtitle {
     margin-left: 5%;
-    color: lightgray;
+    color: var(--secondary-color);
 }
+
+.pagination .page-link.btn-custom  {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-family: "Google Sans", serif;
+    text-transform:lowercase;
+    
+}
+body .pagination .page-link.btn-custom:hover  {
+    background-color: var(--primary-color);
+    color: #fff
+}
+
+/* Comments post section*/
 
 .btn-signup,
 .btn-edit {
-    background-color: #188181;
-    color: #fff;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
 }
 
 .btn-signup:hover,
 .btn-signup:active {
-    background-color: #fff;
-    color: #23BBBB;
+    background-color: var(--primary-color);
+    color: #ffffff;
 }
 
 .link {
-    color: #23BBBB;
+    color: var(--primary-color);
     text-decoration: none;
 }
 
 .link:hover,
 .link:active {
-    color: #445261;
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.link-styled {
+    color: var(--primary-color);
+}
+
+.link-styled:hover,
+.link-styled:active {
+    color: var(--secondary-color);
     text-decoration: underline;
 }
 
 /* Comment Buttons */
+
+.font-weight-bold  {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+
 .edit-comment-btn {
     display: inline-block !important;
 }
@@ -154,7 +332,15 @@ body {
 .edit-comment-btn i {
     display: inline-block !important;
     font-size: 1rem;
-    color: #6c757d;
+    color: var(--primary-color);
+}
+
+.btn-outline-secondary  {
+    color: var(--primary-color);
+}
+
+.btn-outline-secondary:hover  {
+    background-color: var(--primary-color);
 }
 
 
@@ -177,9 +363,41 @@ body {
 }
 
 .faded {
-    color: rgb(172, 175, 175);
+    color: var(--primary-color);
 }
 
-.approval {
-    color: rgb(222, 146, 168);
+/* Media Queries */
+
+/* Hero fix for mobile tiling */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 60vh;
+        /* Ensures the image doesn't repeat on smaller screens either */
+        background-size: cover; 
+    }
+}
+
+/* Her responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 60vh;
+    }
+    .hero h1 {
+        font-size: 2.5rem; 
+    }
+}
+
+/* Django message mobile Alignment */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        text-align: center;
+        padding-bottom: 1rem;
+    }
+    
+    .user-welcome {
+        margin-left: 0 !important;
+        display: block;
+        padding: 10px 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
 }
