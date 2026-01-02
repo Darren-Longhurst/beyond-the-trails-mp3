@@ -23,7 +23,7 @@
 <div class="container">
     <div class="row">
         <div class="col card mb-4 mt-3 left top">
-            <div class="card-body">
+            <div class="card-body" id="post-card-body">
                 <!-- Post content -->
                 <p class="card-text">
                     {{ post.content | safe }}
@@ -59,7 +59,7 @@
     
     <p class="font-weight-bold">
         {{ comment.author }}
-        <span class="font-weight-normal">{{ comment.created_on|date:"F j, Y H:i" }}</span> wrote:
+        <span class="font-weight-normal">on {{ comment.created_at | date:"d/m/y @ H:i" }}</span> wrote:
     </p>
     
     <div id="comment{{ comment.id }}">

@@ -39,72 +39,61 @@
 <body class="d-flex flex-column h-100 main-bg">
 
     <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light shadow fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="{{ home_url }}">
+<nav class="navbar navbar-expand-lg navbar-dark bg-custom-brown sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{{ home_url }}">
             <img src="{% static 'images/logo.png' %}" alt="Beyond The Trails logo" class="logo">
         </a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
             aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == home_url %}active{% endif %}" 
-                       href="{{ home_url }}">Home</a>
+                    <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="{{ home_url }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == blog_url %}active{% endif %}" 
-                       href="{{ blog_url }}">Blog</a>
+                    <a class="nav-link {% if request.path == blog_url %}active{% endif %}" href="{{ blog_url }}">Blog</a>
                 </li>
-
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == logout_url %}active{% endif %}" 
-                       href="{{ logout_url }}">Logout</a>
+                    <a class="nav-link {% if request.path == logout_url %}active{% endif %}" href="{{ logout_url }}">Logout</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == signup_url %}active{% endif %}" 
-                       href="{{ signup_url }}">Register</a>
+                    <a class="nav-link {% if request.path == signup_url %}active{% endif %}" href="{{ signup_url }}">Register</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == login_url %}active{% endif %}" 
-                       href="{{ login_url }}">Login</a>
+                    <a class="nav-link {% if request.path == login_url %}active{% endif %}" href="{{ login_url }}">Login</a>
                 </li>
                 {% endif %}
             </ul>
+            <span class="navbar-text user-welcome">
+                {% if user.is_authenticated %} Welcome, {{ user }} {% else %} You are not logged in. {% endif %}
+            </span>
         </div>
     </div>
 </nav>
-    <!-- displaying Django messages -->
-<div class="container">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      {% for message in messages %}
-      <div class="alert {{ message.tags }} alert-dismissible
-        fade show" id="msg" role="alert">
-        {{ message | safe }}
-        <button type="button" class="btn-close"
-          data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      {% endfor %}
+
+{% if messages %}
+<div class="message-container">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} nav-alert m-0 rounded-0 border-0 fade show" id="msg" role="alert">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span class="alert-text">{{ message | safe }}</span>
+            <button type="button" class="btn-close custom-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     </div>
-  </div>
+    {% endfor %}
 </div>
+{% endif %}
 
     <main class="flex-shrink-0 main-bg">
-        {% if user.is_authenticated %}
-        <p class="text-end m-3">Welcome, {{ user }}!</p>
-        {% else %}
-        <p class="text-end m-3">You are not logged in.</p>
-        {% endif %}
-
         {% block content %}
-        <!-- Content Goes here -->
         {% endblock content %}
-
     </main>
 
     <!-- Footer -->
@@ -121,6 +110,7 @@
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
         </script>
         <script src="{% static 'blogging/js/comment.js' %}"></script>
+        <script src="{%static 'js/base.js' %}"></script>
 
     {% block extra_body %}
     {% endblock extra_body %}
