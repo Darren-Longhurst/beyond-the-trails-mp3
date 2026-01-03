@@ -10,13 +10,24 @@ from .forms import CommentForm
 # Create your views here.
 
 class PostList(generic.ListView):
-    queryset = Post.objects.filter(status=1).order_by('created_at')
     template_name = 'blogging/blog.html'
     paginate_by = 6
+    # Filter view for blog template
+    def get_queryset(self):
+        queryset = Post.objects.filter(status=1).order_by('-created_at')
+        weather_val = self.request.GET.get("weather")
+        bike_val = self.request.GET.get("bike")
+
+        if weather_val and weather_val != "":
+            queryset = queryset.filter(weather=int(weather_val))
+        if bike_val and bike_val != "":
+            queryset = queryset.filter(bike_choice=int(bike_val))
+
+        return queryset
 
 def home_page(request):
     # Filter for published posts and ensure slug is not empty/null
-    latest_posts = Post.objects.filter(status=1).exclude(slug="").order_by('created_at')[:3]
+    latest_posts = Post.objects.filter(status=1).exclude(slug="").order_by('-created_at')[:3]
     hero_image = Post.LOCATION_IMAGES["OTHER"]
     
     context = {
@@ -31,9 +42,9 @@ def post_detail(request, slug):
 
     # Comments: approved or authored by the logged-in user
     if request.user.is_authenticated:
-        comments = (post.comments.filter(approved=True) | post.comments.filter(author=request.user)).distinct().order_by('created_at')
+        comments = (post.comments.filter(approved=True) | post.comments.filter(author=request.user)).distinct().order_by('-created_at')
     else:
-        comments = post.comments.filter(approved=True).order_by('created_at')
+        comments = post.comments.filter(approved=True).order_by('-created_at')
 
     comment_count = post.comments.filter(approved=True).count()
 

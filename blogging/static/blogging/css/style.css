@@ -382,6 +382,16 @@ body .pagination .page-link.btn-custom:hover  {
     color: #fff
 }
 
+.form-select  {
+    border: 1px solid var(--secondary-color);
+    color: var(--primary-color);
+    font-family: var(--primary-font);
+}
+.font-select:focus  {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(74, 75, 44, 0.25);
+}
+
 /* Comments post section*/
 
 .btn-signup,
