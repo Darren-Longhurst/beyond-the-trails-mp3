@@ -25,6 +25,7 @@
 
                             <a href="{% url 'post_detail' post.slug %}" class="post-link">
                                 <h2 class="card-title">{{ post.title }}</h2>
+                                {% include "includes/post_icons.html" with show_likes=True can_like=False %}
                                 <p class="card-text">{{ post.excerpt }}</p>
                             </a>
 

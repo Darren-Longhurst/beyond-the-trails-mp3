@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -10,7 +10,7 @@ from .forms import CommentForm
 # Create your views here.
 
 class PostList(generic.ListView):
-    queryset = Post.objects.filter(status=1).order_by('-created_at')
+    queryset = Post.objects.filter(status=1).order_by('created_at')
     template_name = 'blogging/blog.html'
     paginate_by = 6
 
@@ -59,39 +59,6 @@ def post_detail(request, slug):
 
     return render(request, "blogging/post_detail.html", context)
 
-"""
-def index(request):
-    template = 'blogging/index.html'
-    context = {
-        'page_title': 'Blog Home',
-    }
-
-    return render(request, template, context)
-
-def post_list(request):
-    posts = Post.objects.all()
-    template = 'blogging/post_list.html'
-    context = {
-        'page_title': 'All Blog Posts',
-        'posts': posts,
-    }
-    
-    return render(request, template, context)
-
-def post_detail(request, post_id):
-    try:
-        post = Post.objects.get(id=post_id)
-    except Post.DoesNotExist:
-        return HttpResponse("Post not found", status=404)
-
-    template = 'blogging/post_detail.html'
-    context = {
-        'page_title': post.title,
-        'post': post,
-    }
-    
-    return render(request, template, context)
-"""
 @login_required
 def comment_edit(request, slug, comment_id):
     """
@@ -136,3 +103,13 @@ def comment_delete(request, slug, comment_id):
         messages.success(request, "Comment deleted successfully.")
 
     return HttpResponseRedirect(reverse("post_detail", args=[slug]))
+
+@login_required
+def post_like(request, slug):
+    post = get_object_or_404(Post, slug=slug, status=1)
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+
+    return redirect(post.get_absolute_url())

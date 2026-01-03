@@ -38,6 +38,22 @@ class Post(models.Model):
         "OTHER": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450332/OTHER_pics80.jpg",
     }
 
+    WEATHER_ICONS = {
+        0: "fas fa-solid fa-sun",    
+        1: "fas fa-cloud text-secondary",
+        2: "fas fa-cloud-showers-heavy text-primary",
+        3: "fas fa-snowflake text-info", 
+        4: "fas fa-wind text-dark",     
+        5: "fas fa-smog text-muted",
+    }
+
+    @property
+    def weather_icon_class(self):
+        return self.WEATHER_ICONS.get(self.weather, "fas fa-cloud-sun text-muted")
+    
+    def number_of_likes(self):
+        return self.likes.count()
+
     @property
     def get_image_url(self):
 
@@ -55,9 +71,6 @@ class Post(models.Model):
         # Returns the title of the post as its string representation
         return self.title
 
-    def number_of_likes(self):
-        # Returns the number of likes for the post
-        return self.likes.count()
     def get_absolute_url(self):
         return reverse('post_detail', args=[self.slug])
 

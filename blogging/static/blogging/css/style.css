@@ -219,15 +219,115 @@ h1, h2, h3, .navbar-brand, .nav-link {
     border-radius: 8px 8px 0 0; 
 }
 
+.container > h2.text-uppercase {
+    font-family: var(--primary-font);
+    color: var(--primary-color)!important;
+}
+
+.latest-posts .card-text  {
+    font-family: var(--primary-font);
+    color: var(--primary-color)!important;
+}
+
+/* Post icon styling*/
+
+div.post-icons,
+div.post-icons i,
+div.post-icons span {
+    color: var(--primary-color)!important;
+}
+/* Icon styling in post_detail*/
+
+.masthead-text .post-icons,
+.masthead-text .post-icons i,
+.masthead-text .post-icons span  {
+    color: var(--secondary-color) !important;
+}
+
+.post-meta {
+    margin-top: 15px;
+    margin-left: 5%;
+    display: block;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+.post-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Like button styling*/
+
+.like-container, .like-container form  {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-like-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    color: inherit;  
+}
+
+.like-number  {
+    margin-left: 0px !important;
+    font-weight: 500;
+    line-height: 1;
+}
+
+
+.post-icons span.d-flex.align-items-center  {
+    gap: 4px;
+}
+
+.masthead .btn-like-icon i  {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ff4d4d;
+    transition: color 0.2s ease-in-out, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.masthead .btn-like-icon:hover i {
+    color: #ff4d4d !important;
+    transform: scale(1.1);
+}
+
+.masthead .post-icons span.d-flex.align-items-center  {
+    gap: 8px;
+    background: rgba(0,0,0,0.2);
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.masthead .like-number  {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
 
 /* Blog page custom css*/
 
 .masthead {
     margin-top: 10px;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
-    display: block;
-    height: 33vh;
+    display: flex; 
+    min-height: 33vh;
+    height: auto;
     width: 100%;
 }
 

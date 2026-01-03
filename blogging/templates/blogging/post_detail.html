@@ -6,9 +6,14 @@
 <div class="masthead">
     <div class="container">
         <div class="row g-0">
-            <div class="col-md-6 masthead-text fade-in">
+            <div class="col-md-6 masthead-text">
                 <!-- Post title -->
                 <h1 class="post-title">{{ post.title }}</h1>
+                <!--Post icons-->
+                <div class="post-meta mb-3">
+                {% include "includes/post_icons.html" with post=post show_likes=True can_like=True %}
+                </div>
+
                 <!-- Post author and created date -->
                 <p class="post-subtitle">{{ post.author }} | {{ post.created_at|date:"F j, Y" }}</p>
             </div>
