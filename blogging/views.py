@@ -124,3 +124,31 @@ def post_like(request, slug):
         post.likes.add(request.user)
 
     return redirect(post.get_absolute_url())
+
+"""
+Exception page views
+"""
+
+def handler403(request, exception):
+    """
+    Custom 403 exception page
+    """
+    return render(request, '403.html', status=403)
+
+def handler404(request, exception):
+    """
+    Custom 404 exception page
+    """
+    return render(request, '404.html', status=404)
+
+def handler405(request, exception):
+    """
+    Custom 405 exception page
+    """
+    return render(request, '405.html', status=405)
+
+def handler500(request, exception):
+    """
+    Custom 500 exception page
+    """
+    return render(request, '500.html', status=500)

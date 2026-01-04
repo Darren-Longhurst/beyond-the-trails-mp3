@@ -1,5 +1,6 @@
 from . import views
 from django.urls import path
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', views.home_page, name='home'),
@@ -8,4 +9,9 @@ urlpatterns = [
     path('post/<slug:slug>/edit_comment/<int:comment_id>/', views.comment_edit, name='comment_edit'),
     path('post/<slug:slug>/delete_comment/<int:comment_id>/', views.comment_delete, name='comment_delete'),
     path('post/<slug:slug>/like/', views.post_like, name='post_like'),
+    # Exception error message testing
+    path('403-test/', TemplateView.as_view(template_name='403.html')),
+    path('404-test/', TemplateView.as_view(template_name='404.html')),
+    path('405-test/', TemplateView.as_view(template_name='405.html')),
+    path('500-test/', TemplateView.as_view(template_name='500.html')),
 ]
