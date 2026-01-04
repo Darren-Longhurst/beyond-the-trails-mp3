@@ -49,7 +49,7 @@ h1, h2, h3, .navbar-brand, .nav-link {
     font-size: 0.85rem;
     font-weight: 400;
     margin-left: 20px; 
-    white-space: nowrap; /* Prevents text from breaking into two lines */
+    white-space: nowrap;
 }
 
 /* --- Django alerts (The Message Row) --- */
@@ -115,6 +115,50 @@ h1, h2, h3, .navbar-brand, .nav-link {
 .btn-custom:active {
     background-color: var(--primary-color) !important;
     transform: scale(0.98);
+}
+
+/* Comment buttons & heading*/
+
+.font-weight-bold  {
+    font-weight: bold;
+    font-size: 1rem;
+}
+.btn-del  {
+color: #ff4d4d;
+}
+.edit-comment-btn  {
+    color: var(--primary-color);
+}
+.edit-comment-btn  {
+color: var(--primary-color);
+border-color: var(--primary-color);
+}
+.edit-comment-btn:hover  {
+    background-color: var(--primary-color);
+}
+.edit-comment-btn:hover i {
+    color: #ffffff !important;
+}
+.edit-comment-btn i, .btn-del i {
+font-size: 0.85em !important;
+margin-right: 2px;
+}
+
+/* Comment update & buttons*/
+
+.submit-edit-btn  {
+color: var(--primary-color);
+border-color: var(--primary-color);
+}
+
+.submit-edit-btn:hover  {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.cancel-edit-btn  {
+border-color: #ff4d4d;
+color: #ff4d4d;
 }
 
 /* Post detail content*/
@@ -229,13 +273,12 @@ h1, h2, h3, .navbar-brand, .nav-link {
     color: var(--primary-color)!important;
 }
 
-/* Post icon styling*/
-
 div.post-icons,
 div.post-icons i,
 div.post-icons span {
     color: var(--primary-color)!important;
 }
+
 /* Icon styling in post_detail*/
 
 .masthead-text .post-icons,
@@ -261,7 +304,7 @@ div.post-icons span {
     visibility: visible !important;
 }
 
-/* Like button styling*/
+/*Interactive like button styling*/
 
 .like-container, .like-container form  {
     display: flex;
@@ -287,7 +330,6 @@ div.post-icons span {
     font-weight: 500;
     line-height: 1;
 }
-
 
 .post-icons span.d-flex.align-items-center  {
     gap: 4px;
@@ -427,67 +469,17 @@ body .pagination .page-link.btn-custom:hover  {
     text-decoration: underline;
 }
 
-/* Comment Buttons */
-
-.font-weight-bold  {
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-
-.edit-comment-btn {
-    display: inline-block !important;
-}
-
-.edit-comment-btn i {
-    display: inline-block !important;
-    font-size: 1rem;
-    color: var(--primary-color);
-}
-
-.btn-outline-secondary  {
-    color: var(--primary-color);
-}
-
-.btn-outline-secondary:hover  {
-    background-color: var(--primary-color);
-}
-
-
-.btn-like {
-    color: #E84610;
-    border: none;
-    background: transparent;
-}
-
-.btn-delete {
-    color: #fff;
-    background: #E84610;
-}
-
-.btn-like:hover,
-.btn-like:active {
-    color: #E84610;
-    background: transparent;
-    border: none;
-}
-
-.faded {
-    color: var(--primary-color);
-}
-
 /* Media Queries */
 
 /* Hero fix for mobile tiling */
 @media (max-width: 768px) {
     .hero {
         min-height: 60vh;
-        /* Ensures the image doesn't repeat on smaller screens either */
         background-size: cover; 
     }
 }
 
-/* Her responsive adjustments for smaller screens */
+/* Hero responsive adjustments for smaller screens */
 @media (max-width: 768px) {
     .hero {
         min-height: 60vh;
