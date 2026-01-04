@@ -59,6 +59,11 @@
                     <a class="nav-link {% if request.path == blog_url %}active{% endif %}" href="{{ blog_url }}">Blog</a>
                 </li>
                 {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin:blogging_post_add' %}"><i class="fa-regular fa-square-plus me-1"></i>Add Post</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == logout_url %}active{% endif %}" href="{{ logout_url }}">Logout</a>
                 </li>
