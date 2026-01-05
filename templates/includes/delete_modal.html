@@ -1,0 +1,22 @@
+<!--Delete modal-->
+
+<div class="modal fade" id="{{ modal_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                {{ warning_text }}
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-custom btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" action="{{ delete_url }}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-del btn-outline-danger">Confirm Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

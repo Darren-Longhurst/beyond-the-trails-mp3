@@ -7,6 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 alert.remove();
             }, 500);
-        }, 5000);
+        }, 6000);
     });
 });

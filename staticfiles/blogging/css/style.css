@@ -105,6 +105,19 @@ h1, h2, h3, .navbar-brand, .nav-link {
     border: 0.5px solid var(--secondary-color);
 }
 
+.btn-custom-outline  {
+    border: 0.5px solid var(--primary-color)!important;
+    color: var(--primary-color);
+    font-family: var(--primary-font);
+    transition: all 0.3s ease;
+}
+
+.btn-custom-outline:hover  {
+    border: 0.5px solid var(--primary-color);
+    color: #ffffff;
+    background-color: var(--primary-color);
+}
+
 /* The "Halo" / Focus State */
 .btn-custom:focus, 
 .btn:focus {

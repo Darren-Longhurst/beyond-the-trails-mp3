@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib import messages
+from django.shortcuts import redirect
 from blogging.models import Post, Comment
 from django_summernote.admin import SummernoteModelAdmin
 from django.utils.text import slugify
@@ -18,6 +20,13 @@ class PostAdmin(SummernoteModelAdmin):
             return ('likes', 'image', 'slug')
         else:
             return ('author', 'slug', 'likes', 'image', 'status')
+        
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        else:
+            return qs.filter(author=request.user)
 
     def save_model(self, request, obj, form, change):
         # Automatically sets the author to the person logged in
@@ -39,6 +48,23 @@ class PostAdmin(SummernoteModelAdmin):
             obj.slug = slug
             
         super().save_model(request, obj, form, change)
+    
+    def response_add(self, request, obj, post_url_continue=None):
+        if not request.user.is_superuser:
+            messages.success(
+                request,
+                "Thanks for submitting your post. It is subject to review, once approved you will see it on the blog page."
+            )
+            return redirect('home')
+        else:
+            return super().response_change(request, obj)
+    
+    def response_change(self, request, obj):
+        if not request.user.is_superuser:
+            messages.success(request, "Post updated successfully!")
+            return redirect('home')
+        else:
+            return super().response_change(request, obj)
 
 """Comment model in admin panel"""
 

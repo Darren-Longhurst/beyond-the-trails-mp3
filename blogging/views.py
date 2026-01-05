@@ -71,6 +71,17 @@ def post_detail(request, slug):
     return render(request, "blogging/post_detail.html", context)
 
 @login_required
+def post_delete(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if post.author == request.user or request.user.is_superuser:
+        post.delete()
+        messages.success(request, 'This post has been removed.')
+        return redirect('home')
+    else:
+        messages.error(request, "You don't have permission to delete this post.")
+        return redirect('home')
+
+@login_required
 def comment_edit(request, slug, comment_id):
     """
     view to edit comments
@@ -105,7 +116,10 @@ def comment_delete(request, slug, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id, post=post)
 
     """ Ensure the logged-in user is the author of the comment """
-    if comment.author != request.user:
+    if comment.author == request.user or request.user.is_superuser:
+        comment.delete()
+        messages.success(request, "Comment deleted successfully")
+    else:
         messages.error(request, "You are not allowed to delete this comment.")
         return HttpResponseRedirect(reverse("post_detail", args=[slug]))
 
