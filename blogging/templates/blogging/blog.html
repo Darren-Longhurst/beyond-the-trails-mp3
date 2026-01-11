@@ -9,8 +9,8 @@
             <form method="GET" action="{% url 'blog' %}" class="container">
                 <div class="row g-3 align-items-center">
                     <div class="col-md-4">
-                        <label class="small text-uppercase fw-bold">Weather</label>
-                        <select name="weather" class="form-select">
+                        <label for="weather-select" class="small text-uppercase fw-bold">Weather</label>
+                        <select name="weather" id="weather-select" class="form-select">
                             <option value="">All Weather</option>
                             <option value="0" {% if request.GET.weather == '0' %}selected{% endif %}>Sunny</option>
                             <option value="1" {% if request.GET.weather == '1' %}selected{% endif %}>Overcast</option>
@@ -22,8 +22,8 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label class="small text-uppercase fw-bold">Bike Type</label>
-                        <select name="bike" class="form-select">
+                        <label for="bike-choice" class="small text-uppercase fw-bold">Bike Type</label>
+                        <select name="bike" id="bike-choice" class="form-select">
                             <option value="">All Bikes</option>
                             <option value="0" {% if request.GET.bike == '0' %}selected{% endif %}>Hardtail</option>
                             <option value="1" {% if request.GET.bike == '1' %}selected{% endif %}>Full Suspension</option>

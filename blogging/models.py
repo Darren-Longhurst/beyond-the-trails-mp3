@@ -63,35 +63,35 @@ class Post(models.Model):
     LOCATION_IMAGES = {
         "KAW": (
             "https://res.cloudinary.com/dxbvkulz4/image/upload/"
-            "v1766450332/KAW_azhb8h.jpg"
+            "v1768168627/KAW_azhb8h_dcupga.jpg"
         ),
         "GNT": (
             "https://res.cloudinary.com/dxbvkulz4/image/upload/"
-            "v1766450331/GNT_hgmttq.jpg"
+            "v1768168627/GNT_hgmttq_azteqw.jpg"
         ),
         "MCW": (
             "https://res.cloudinary.com/dxbvkulz4/image/upload/"
-            "v1766450331/MCW_vccqz4.jpg"
+            "v1768168626/MCW_vccqz4_uor90f.jpg"
         ),
         "TE": (
             "https://res.cloudinary.com/dxbvkulz4/image/upload/"
-            "v1766450331/TE_dxmhjq.jpg"
+            "v1768168627/TE_dxmhjq_x8zntz.jpg"
         ),
         "NDW": (
             "https://res.cloudinary.com/dxbvkulz4/image/upload/"
-            "v1766450331/NDW_trpocy.jpg"
+            "v1768168626/NDW_trpocy_rgivb3.jpg"
         ),
         "RW": (
             "https://res.cloudinary.com/dxbvkulz4/image/upload/"
-            "v1766450331/RW_j5smla.jpg"
+            "v1768168627/RW_j5smla_aghoiw.jpg"
         ),
         "WKW": (
             "https://res.cloudinary.com/dxbvkulz4/image/upload/"
-            "v1766450331/WKW_gnmghj.jpg"
+            "v1768168627/WKW_gnmghj_k4ooi6.jpg"
         ),
         "OTHER": (
             "https://res.cloudinary.com/dxbvkulz4/image/upload/"
-            "v1766450332/OTHER_pics80.jpg"
+            "v1768168627/OTHER_pics80_rzpk5w.jpg"
         ),
     }
 
