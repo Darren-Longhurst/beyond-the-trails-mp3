@@ -4,64 +4,125 @@ from cloudinary.models import CloudinaryField
 from django.urls import reverse
 
 STATUS = ((0, "Draft"), (1, "Published"))
-LOCATIONS = (("KAW", "King Alfreds Way"), ("GNT", "Great North Trail"), ("MCW", "Marcher Castles Way"), ("TE", "Traws Eryri"), ("NDW", "North Downs Way"), ("RW", "Rebellion Way"), ("WKW", "West Kernow Way"), ("OTHER", "Other"))
-WEATHER = ((0, "Sunny"), (1, "Overcast"), (2, "Rainy"), (3, "Snowy"), (4, "Windy"), (5, "Foggy"))
-BIKE_CHOICES = ((0, "Hardtail"), (1, "Full Suspension"), (2, "Road Bike"), (3, "Hybrid Bike"), (4, "Electric Bike"), (5, "Gravel Bike"))
 
-""" Model for blog posts """
+LOCATIONS = (
+    ("KAW", "King Alfreds Way"),
+    ("GNT", "Great North Trail"),
+    ("MCW", "Marcher Castles Way"),
+    ("TE", "Traws Eryri"),
+    ("NDW", "North Downs Way"),
+    ("RW", "Rebellion Way"),
+    ("WKW", "West Kernow Way"),
+    ("OTHER", "Other"),
+)
+
+WEATHER = (
+    (0, "Sunny"),
+    (1, "Overcast"),
+    (2, "Rainy"),
+    (3, "Snowy"),
+    (4, "Windy"),
+    (5, "Foggy"),
+)
+
+BIKE_CHOICES = (
+    (0, "Hardtail"),
+    (1, "Full Suspension"),
+    (2, "Road Bike"),
+    (3, "Hybrid Bike"),
+    (4, "Electric Bike"),
+    (5, "Gravel Bike"),
+)
+
 
 class Post(models.Model):
+    """ Model for blog posts """
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blogging_posts', default=1)
-    location = models.CharField(max_length=10, choices=LOCATIONS, default="OTHER")
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='blogging_posts'
+    )
+    location = models.CharField(
+        max_length=10, choices=LOCATIONS, default="OTHER"
+    )
     weather = models.IntegerField(choices=WEATHER, default=0)
     image = CloudinaryField('image', default='placeholder')
-    excerpt = models.TextField(blank=True, help_text='A short summary of the post')
+    excerpt = models.TextField(
+        blank=True, help_text='A short summary of the post'
+    )
     bike_choice = models.IntegerField(choices=BIKE_CHOICES, default=0)
-    likes = models.ManyToManyField(User, related_name='blogging_likes', blank=True)
+    likes = models.ManyToManyField(
+        User, related_name='blogging_likes', blank=True
+    )
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS, default=0)
 
     # Location image mapping
-
     LOCATION_IMAGES = {
-        "KAW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450332/KAW_azhb8h.jpg",
-        "GNT": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/GNT_hgmttq.jpg",
-        "MCW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/MCW_vccqz4.jpg",
-        "TE": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/TE_dxmhjq.jpg",
-        "NDW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/NDW_trpocy.jpg",
-        "RW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/RW_j5smla.jpg",
-        "WKW": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450331/WKW_gnmghj.jpg",
-        "OTHER": "https://res.cloudinary.com/dxbvkulz4/image/upload/v1766450332/OTHER_pics80.jpg",
+        "KAW": (
+            "https://res.cloudinary.com/dxbvkulz4/image/upload/"
+            "v1766450332/KAW_azhb8h.jpg"
+        ),
+        "GNT": (
+            "https://res.cloudinary.com/dxbvkulz4/image/upload/"
+            "v1766450331/GNT_hgmttq.jpg"
+        ),
+        "MCW": (
+            "https://res.cloudinary.com/dxbvkulz4/image/upload/"
+            "v1766450331/MCW_vccqz4.jpg"
+        ),
+        "TE": (
+            "https://res.cloudinary.com/dxbvkulz4/image/upload/"
+            "v1766450331/TE_dxmhjq.jpg"
+        ),
+        "NDW": (
+            "https://res.cloudinary.com/dxbvkulz4/image/upload/"
+            "v1766450331/NDW_trpocy.jpg"
+        ),
+        "RW": (
+            "https://res.cloudinary.com/dxbvkulz4/image/upload/"
+            "v1766450331/RW_j5smla.jpg"
+        ),
+        "WKW": (
+            "https://res.cloudinary.com/dxbvkulz4/image/upload/"
+            "v1766450331/WKW_gnmghj.jpg"
+        ),
+        "OTHER": (
+            "https://res.cloudinary.com/dxbvkulz4/image/upload/"
+            "v1766450332/OTHER_pics80.jpg"
+        ),
     }
 
     WEATHER_ICONS = {
-        0: "fas fa-solid fa-sun",    
+        0: "fas fa-solid fa-sun",
         1: "fas fa-cloud text-secondary",
         2: "fas fa-cloud-showers-heavy text-primary",
-        3: "fas fa-snowflake text-info", 
-        4: "fas fa-wind text-dark",     
+        3: "fas fa-snowflake text-info",
+        4: "fas fa-wind text-dark",
         5: "fas fa-smog text-muted",
     }
 
     @property
     def weather_icon_class(self):
-        return self.WEATHER_ICONS.get(self.weather, "fas fa-cloud-sun text-muted")
-    
+        return self.WEATHER_ICONS.get(
+            self.weather, "fas fa-cloud-sun text-muted"
+        )
+
     def number_of_likes(self):
         return self.likes.count()
 
     @property
     def get_image_url(self):
-
+        image_url = getattr(self.image, 'url', str(self.image))
         # Checks if the image is the default placeholder
-        if "placeholder" in self.image.url:
-            return self.LOCATION_IMAGES.get(self.location, self.LOCATION_IMAGES["OTHER"])
+        if "placeholder" in image_url:
+            return self.LOCATION_IMAGES.get(
+                self.location, self.LOCATION_IMAGES["OTHER"]
+            )
         else:
-            return self.image.url
+            return image_url
 
     class Meta:
         # Sets the default ordering to descending creation date
@@ -74,10 +135,12 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', args=[self.slug])
 
-""" Model for comments associated with blog posts """
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    """ Model for comments associated with blog posts """
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='comments'
+    )
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

@@ -2,8 +2,8 @@
 <div class="post-icons d-flex flex-wrap gap-3 mb-2">
 
     {% if show_likes %}
-    <span class="d-flex align-items-center" title="Likes">
-        <div class=""like-container d-flex align-items-center me-1>
+    <div class="d-flex align-items-center" title="Likes">
+        <div class="like-container d-flex align-items-center me-1">
         {% if can_like and user.is_authenticated %}
             <form action="{% url 'post_like' post.slug %}" method="POST" class="d-inline">
                 {% csrf_token %}
@@ -20,21 +20,21 @@
         {% endif %}
         </div>
         <span class="like_number">{{ post.number_of_likes }}</span>
-    </span>
+    </div>
     {% endif %}
 
     {% if post.weather >= 0 %}
-    <span class="d-flex align-items-center" title="Weather">
+    <div class="d-flex align-items-center" title="Weather">
         <i class="{{ post.weather_icon_class }} me-1"></i> 
         <span>{{ post.get_weather_display }}</span>
-    </span>
+    </div>
     {% endif %}
 
     {% if post.bike_choice >= 0 %}
-    <span class="d-flex align-items-center" title="Bike Used">
+    <div class="d-flex align-items-center" title="Bike Used">
         <i class="fas fa-bicycle me-1"></i> 
         <span>{{ post.get_bike_choice_display }}</span>
-    </span>
+    </div>
     {% endif %}
 
 </div>

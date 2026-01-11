@@ -1,18 +1,42 @@
-from . import views
 from django.urls import path
 from django.views.generic import TemplateView
+from . import views
 
 urlpatterns = [
     path('', views.home_page, name='home'),
     path('blog', views.PostList.as_view(), name='blog'),
     path('post/<slug:slug>/', views.post_detail, name='post_detail'),
-    path('post/<slug:slug>/edit_comment/<int:comment_id>/', views.comment_edit, name='comment_edit'),
-    path('post/<slug:slug>/delete_comment/<int:comment_id>/', views.comment_delete, name='comment_delete'),
+    path(
+        'post/<slug:slug>/edit_comment/<int:comment_id>/',
+        views.comment_edit,
+        name='comment_edit'
+    ),
+    path(
+        'post/<slug:slug>/delete_comment/<int:comment_id>/',
+        views.comment_delete,
+        name='comment_delete'
+    ),
     path('post/<slug:slug>/delete/', views.post_delete, name='post_delete'),
     path('post/<slug:slug>/like/', views.post_like, name='post_like'),
     # Exception error message testing
-    path('403-test/', TemplateView.as_view(template_name='403.html')),
-    path('404-test/', TemplateView.as_view(template_name='404.html')),
-    path('405-test/', TemplateView.as_view(template_name='405.html')),
-    path('500-test/', TemplateView.as_view(template_name='500.html')),
+    path(
+        '403-test/',
+        TemplateView.as_view(template_name='403.html'),
+        name='403-test'
+    ),
+    path(
+        '404-test/',
+        TemplateView.as_view(template_name='404.html'),
+        name='404-test'
+    ),
+    path(
+        '405-test/',
+        TemplateView.as_view(template_name='405.html'),
+        name='405-test'
+    ),
+    path(
+        '500-test/',
+        TemplateView.as_view(template_name='500.html'),
+        name='500-test'
+    ),
 ]

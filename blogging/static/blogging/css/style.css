@@ -6,7 +6,7 @@
     --secondary-font: 'Cal Sans', sans-serif;
     --primary-color: #4a4b2c;
     --secondary-color: #a6a68e;
-    --highlight-color: #e4ec00;
+    --highlight-color: #ec8600;
 }
 
 body {
@@ -121,7 +121,7 @@ h1, h2, h3, .navbar-brand, .nav-link {
 /* The "Halo" / Focus State */
 .btn-custom:focus, 
 .btn:focus {
-    box-shadow: 0.25px var(--secondary-color) !important;
+    box-shadow: 0 0 0 0.25rem var(--secondary-color) !important;
 }
 
 /* Active / Click State */

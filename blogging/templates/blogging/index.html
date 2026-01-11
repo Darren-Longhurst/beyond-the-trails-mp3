@@ -62,7 +62,7 @@
                     </div>
                     {% endif %}
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ post.title }}</h5>
+                        <h3 class="card-title">{{ post.title }}</h3>
                         {% include "includes/post_icons.html" with show_likes=True %}
                         <p class="card-text">{{ post.excerpt }}</p>
                         <a href="{{ post.get_absolute_url }}" class="btn btn-custom mt-auto">Read Full Story</a>

@@ -7,13 +7,12 @@ from .models import Post, Comment
 from .forms import CommentForm
 
 
-# Create your views here.
-
 class PostList(generic.ListView):
     template_name = 'blogging/blog.html'
     paginate_by = 6
-    # Filter view for blog template
+
     def get_queryset(self):
+        """ Filter view for blog template """
         queryset = Post.objects.filter(status=1).order_by('-created_at')
         weather_val = self.request.GET.get("weather")
         bike_val = self.request.GET.get("bike")
@@ -25,24 +24,30 @@ class PostList(generic.ListView):
 
         return queryset
 
+
 def home_page(request):
-    # Filter for published posts and ensure slug is not empty/null
-    latest_posts = Post.objects.filter(status=1).exclude(slug="").order_by('-created_at')[:3]
+    """ Filter for published posts and ensure slug is not empty/null """
+    latest_posts = Post.objects.filter(
+        status=1
+    ).exclude(slug="").order_by('-created_at')[:3]
     hero_image = Post.LOCATION_IMAGES["OTHER"]
-    
+
     context = {
         'latest_posts': latest_posts,
         'hero_image': hero_image,
     }
     return render(request, 'blogging/index.html', context)
-    
+
 
 def post_detail(request, slug):
     post = get_object_or_404(Post.objects.filter(status=1), slug=slug)
 
     # Comments: approved or authored by the logged-in user
     if request.user.is_authenticated:
-        comments = (post.comments.filter(approved=True) | post.comments.filter(author=request.user)).distinct().order_by('-created_at')
+        comments = (
+            post.comments.filter(approved=True) |
+            post.comments.filter(author=request.user)
+        ).distinct().order_by('-created_at')
     else:
         comments = post.comments.filter(approved=True).order_by('-created_at')
 
@@ -56,7 +61,10 @@ def post_detail(request, slug):
             new_comment.post = post
             new_comment.author = request.user
             new_comment.save()
-            messages.success(request, "Your comment has been submitted and is awaiting approval.")
+            messages.success(
+                request,
+                "Your comment has been submitted and is awaiting approval."
+            )
             return HttpResponseRedirect(reverse('post_detail', args=[slug]))
     else:
         comment_form = CommentForm()
@@ -70,6 +78,7 @@ def post_detail(request, slug):
 
     return render(request, "blogging/post_detail.html", context)
 
+
 @login_required
 def post_delete(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -78,18 +87,19 @@ def post_delete(request, slug):
         messages.success(request, 'This post has been removed.')
         return redirect('home')
     else:
-        messages.error(request, "You don't have permission to delete this post.")
+        messages.error(
+            request, "You don't have permission to delete this post."
+        )
         return redirect('home')
+
 
 @login_required
 def comment_edit(request, slug, comment_id):
-    """
-    view to edit comments
-    """
+    """ View to edit comments """
     post = get_object_or_404(Post, slug=slug, status=1)
     comment = get_object_or_404(Comment, pk=comment_id, post=post)
-    
-    """ Ensure the logged-in user is the author of the comment """
+
+    # Ensure the logged-in user is the author of the comment
     if comment.author != request.user:
         messages.error(request, "You are not allowed to edit this comment.")
         return HttpResponseRedirect(reverse("post_detail", args=[slug]))
@@ -107,27 +117,25 @@ def comment_edit(request, slug, comment_id):
 
     return HttpResponseRedirect(reverse("post_detail", args=[slug]))
 
+
 @login_required
 def comment_delete(request, slug, comment_id):
-    """
-    view to delete comments
-    """
+    """ View to delete comments """
     post = get_object_or_404(Post, slug=slug, status=1)
     comment = get_object_or_404(Comment, pk=comment_id, post=post)
 
-    """ Ensure the logged-in user is the author of the comment """
+    # Ensure the logged-in user is the author of the comment
     if comment.author == request.user or request.user.is_superuser:
         comment.delete()
         messages.success(request, "Comment deleted successfully")
     else:
-        messages.error(request, "You are not allowed to delete this comment.")
+        messages.error(
+            request, "You are not allowed to delete this comment."
+        )
         return HttpResponseRedirect(reverse("post_detail", args=[slug]))
 
-    if request.method == "POST":
-        comment.delete()
-        messages.success(request, "Comment deleted successfully.")
-
     return HttpResponseRedirect(reverse("post_detail", args=[slug]))
+
 
 @login_required
 def post_like(request, slug):
@@ -139,30 +147,22 @@ def post_like(request, slug):
 
     return redirect(post.get_absolute_url())
 
-"""
-Exception page views
-"""
 
 def handler403(request, exception):
-    """
-    Custom 403 exception page
-    """
+    """ Custom 403 exception page """
     return render(request, '403.html', status=403)
 
+
 def handler404(request, exception):
-    """
-    Custom 404 exception page
-    """
+    """ Custom 404 exception page """
     return render(request, '404.html', status=404)
 
+
 def handler405(request, exception):
-    """
-    Custom 405 exception page
-    """
+    """ Custom 405 exception page """
     return render(request, '405.html', status=405)
 
+
 def handler500(request, exception):
-    """
-    Custom 500 exception page
-    """
+    """ Custom 500 exception page """
     return render(request, '500.html', status=500)
