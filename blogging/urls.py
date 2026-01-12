@@ -18,25 +18,25 @@ urlpatterns = [
     ),
     path('post/<slug:slug>/delete/', views.post_delete, name='post_delete'),
     path('post/<slug:slug>/like/', views.post_like, name='post_like'),
-    # Exception error message testing
+# --- Exception error message testing ---
     path(
         '403-test/',
-        TemplateView.as_view(template_name='403.html'),
+        views.Force403View.as_view(),
         name='403-test'
     ),
     path(
         '404-test/',
-        TemplateView.as_view(template_name='404.html'),
+        views.Force404View.as_view(),
         name='404-test'
     ),
     path(
         '405-test/',
-        TemplateView.as_view(template_name='405.html'),
+        views.Force405View.as_view(),
         name='405-test'
     ),
     path(
         '500-test/',
-        TemplateView.as_view(template_name='500.html'),
+        views.Force500View.as_view(),
         name='500-test'
     ),
 ]

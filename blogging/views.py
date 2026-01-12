@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
-from django.views import generic
+from django.views import generic, View
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from .forms import CommentForm
@@ -147,22 +148,39 @@ def post_like(request, slug):
 
     return redirect(post.get_absolute_url())
 
+# --- ERROR TESTING VIEWS ---
+# These views are specifically for testing documentation
+
+class Force403View(View):
+    def get(self, request, *args, **kwargs):
+        raise PermissionDenied
+
+class Force404View(View):
+    def get(self, request, *args, **kwargs):
+        return handler404(request, exception=Exception("Page not found test"))
+
+class Force405View(View):
+    def get(self, request, *args, **kwargs):
+        return handler405(request, exception=Exception("Method Not Allowed test"))
+
+class Force500View(View):
+    def get(self, request, *args, **kwargs):
+        return handler500(request)
+
+# --- CUSTOM ERROR HANDLERS ---
 
 def handler403(request, exception):
-    """ Custom 403 exception page """
+    """ Custom 403 Forbidden page """
     return render(request, '403.html', status=403)
 
-
 def handler404(request, exception):
-    """ Custom 404 exception page """
+    """ Custom 404 Not Found page """
     return render(request, '404.html', status=404)
 
-
-def handler405(request, exception):
-    """ Custom 405 exception page """
+def handler405(request, exception=None):
+    """ Custom 405 Method Not Allowed page """
     return render(request, '405.html', status=405)
 
-
-def handler500(request, exception):
-    """ Custom 500 exception page """
+def handler500(request):
+    """ Custom 500 Internal Server Error page """
     return render(request, '500.html', status=500)

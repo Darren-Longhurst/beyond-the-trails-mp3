@@ -18,6 +18,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from blogging.views import handler403, handler404, handler405, handler500
 
 urlpatterns = [
     path('accounts/', include('allauth.urls')),
@@ -25,6 +26,11 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     path('', include('blogging.urls')),
 ]
+
+handler403 = 'blogging.views.handler403'
+handler404 = 'blogging.views.handler404'
+handler405 = 'blogging.views.handler405'
+handler500 = 'blogging.views.handler500'
 
 if settings.DEBUG:
     urlpatterns += static(
