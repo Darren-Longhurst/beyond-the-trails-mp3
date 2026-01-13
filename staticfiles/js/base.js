@@ -1,6 +1,5 @@
 /* Django message timeout fade*/
-
-document.addEventListener('DOMContentLoaded', () => {
+const initAlertFade = () => {
     document.querySelectorAll('.alert').forEach(alert => {
         setTimeout(() => {
             alert.classList.remove('show');
@@ -9,4 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500);
         }, 6000);
     });
-});
+};
+
+// Run it on load
+document.addEventListener('DOMContentLoaded', initAlertFade);
+
+// Export for Jest
+if (typeof module !== 'undefined') {
+    module.exports = { initAlertFade };
+}
